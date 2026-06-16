@@ -14,6 +14,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 ])]
 class UrlAccess extends Model
 {
+    public $timestamps = false;
+    
     protected function casts(): array
     {
         return [

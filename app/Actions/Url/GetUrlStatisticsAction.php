@@ -22,9 +22,9 @@ final class GetUrlStatisticsAction
     {
         return [
             'total_clicks' => $url->clicks_count,
-            'daily' => $this->groupBy($url, "DATE(accessed_at)", 'date', days: 30),
-            'weekly' => $this->groupBy($url, "YEARWEEK(accessed_at, 1)", 'week', days: 90),
-            'monthly' => $this->groupBy($url, "DATE_FORMAT(accessed_at, '%Y-%m')", 'month', days: 365),
+            'daily' => $this->groupBy($url, "strftime('%Y-%m-%d', accessed_at)", 'date', days: 30),
+            'weekly' => $this->groupBy($url, "strftime('%Y-%W', accessed_at)", 'week', days: 90),
+            'monthly' => $this->groupBy($url, "strftime('%Y-%m', accessed_at)", 'month', days: 365),
         ];
     }
 
@@ -39,7 +39,7 @@ final class GetUrlStatisticsAction
             ->groupBy($alias)
             ->orderBy($alias)
             ->get()
-            ->map(fn($row) => [
+            ->map(fn ($row) => [
                 $alias => (string) $row->{$alias},
                 'clicks' => (int) $row->clicks,
             ])
