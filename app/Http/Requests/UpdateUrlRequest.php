@@ -10,9 +10,7 @@ class UpdateUrlRequest extends FormRequest
 {
     public function authorize(): bool
     {
-        $url = $this->route('url');
-
-        return $url->user_id === $this->user()->id;
+        return true;
     }
 
     public function rules(): array

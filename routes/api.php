@@ -14,7 +14,8 @@ Route::middleware('throttle:10,1')->group(function () {
 
     // Auth
     Route::post('/auth/register', [AuthController::class, 'register']);
-    Route::post('/auth/login', [AuthController::class, 'login']);
+    Route::post('/auth/login', [AuthController::class, 'login'])
+        ->middleware('throttle:5,1');
 
     Route::middleware('auth:api')->group(function () {
         Route::post('/auth/logout', [AuthController::class, 'logout']);
@@ -23,17 +24,26 @@ Route::middleware('throttle:10,1')->group(function () {
     });
 
     // Encurtador
-   Route::post('/shorten', ShortenController::class)
-    ->middleware('auth.optional');
-    Route::get('/{code}', RedirectController::class)->where('code', '[A-Za-z0-9]{6,8}');
-    Route::get('/{code}/stats', UrlStatisticsController::class)->where('code', '[A-Za-z0-9]{6,8}');
+    Route::post('/shorten', ShortenController::class)
+        ->middleware('auth.optional');
+
+    Route::get('/{code}', RedirectController::class)
+        ->where('code', '[A-Za-z0-9]{6,8}');
+
+    Route::get('/{code}/stats', UrlStatisticsController::class)
+        ->where('code', '[A-Za-z0-9]{6,8}');
+
     Route::get('/{code}/qrcode', QrCodeController::class)
         ->where('code', '[A-Za-z0-9]{6,8}')
         ->name('urls.qrcode');
 
     Route::middleware('auth:api')->group(function () {
         Route::get('/me/urls', [UrlManagementController::class, 'index']);
-        Route::patch('/{code}', [UrlManagementController::class, 'update']);
-        Route::delete('/{code}', [UrlManagementController::class, 'destroy']);
+
+        Route::patch('/{url}', [UrlManagementController::class, 'update'])
+            ->where('url', '[A-Za-z0-9]{6,8}');
+
+        Route::delete('/{url}', [UrlManagementController::class, 'destroy'])
+            ->where('url', '[A-Za-z0-9]{6,8}');
     });
 });

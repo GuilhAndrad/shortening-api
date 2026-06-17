@@ -39,6 +39,11 @@ class Url extends Model
         return $this->expires_at !== null && $this->expires_at->isPast();
     }
 
+    public function getRouteKeyName(): string
+    {
+        return 'code';
+    }
+
     public function scopeNotExpired(Builder $query): Builder
     {
         return $query->where(function (Builder $q) {

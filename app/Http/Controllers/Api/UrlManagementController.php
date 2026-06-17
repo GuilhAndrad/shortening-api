@@ -26,6 +26,8 @@ class UrlManagementController extends Controller
 
     public function update(UpdateUrlRequest $request, Url $url): JsonResponse
     {
+        $this->authorize('update', $url);
+
         $url->update($request->validated());
 
         return UrlResource::make($url)->response();
