@@ -6,8 +6,7 @@ API REST para encurtamento de URLs com autenticação JWT, controle de acesso, e
 
 - PHP 8.3+
 - Laravel 13
-- Pest — test runner
-- SQLite (dev) / MySQL ou PostgreSQL (produção)
+- SQLite (dev) / MySQL ou PostgreSQL
 - `php-open-source-saver/jwt-auth` — autenticação via JWT
 - `simplesoftwareio/simple-qrcode` — geração de QR Code
 
